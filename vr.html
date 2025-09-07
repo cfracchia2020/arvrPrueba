@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <title>VR - Navegar 360°</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
+  <style>
+    body { margin: 0; font-family: Arial, sans-serif; }
+    .ui-note {
+      position: absolute;
+      left: 10px;
+      top: 10px;
+      background: rgba(255,255,255,0.9);
+      padding: 8px 12px;
+      border-radius: 6px;
+      z-index: 10;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <div class="ui-note">Apuntá y hacé clic en una miniatura para cambiar la imagen 360°.</div>
+
+  <a-scene>
+    <!-- Preload de imágenes -->
+    <a-assets>
+      <!-- Pone tus imágenes 360 en la misma carpeta y renómbralas si hace falta -->
+      <img id="img1" src="img1.jpg" />
+      <img id="img2" src="img2.jpg" />
+      <img id="img3" src="img3.jpg" />
+      <img id="img4" src="img4.jpg" />
+      <img id="img5" src="img5.jpg" />
+      <img id="img6" src="img6.jpg" />
+    </a-assets>
+
+    <!-- Sky (imagen 360) -->
+    <a-sky id="sky" src="#img1" rotation="0 -90 0"></a-sky>
+
+    <!-- Cámara con cursor que usa el mouse (útil en desktop) y también funciona en VR -->
+    <a-entity camera look-controls position="0 1.6 0">
+      <a-entity 
+        cursor="rayOrigin: mouse" 
+        raycaster="objects: .clickable" 
+        geometry="primitive: ring; radiusInner: 0.01; radiusOuter: 0.02" 
+        position="0 0 -1">
+      </a-entity>
+    </a-entity>
+
+    <!-- Miniaturas (thumbnails) para seleccionar las 6 imágenes -->
+    <!-- Ajustá posiciones si querés otra disposición -->
+    <a-entity position="0 1.2 -2.5">
+      <a-plane class="thumb clickable" data-src="#img1" position="-3.0 0 0" width="1.2" height="0.7" material="src: #img1; shader: flat"></a-plane>
+      <a-plane class="thumb clickable" data-src="#img2" position="-1.8 0 0" width="1.2" height="0.7" material="src: #img2; shader: flat"></a-plane>
+      <a-plane class="thumb clickable" data-src="#img3" position="-0.6 0 0" width="1.2" height="0.7" material="src: #img3; shader: flat"></a-plane>
+      <a-plane class="thumb clickable" data-src="#img4" position="0.6 0 0" width="1.2" height="0.7" material="src: #img4; shader: flat"></a-plane>
+      <a-plane class="thumb clickable" data-src="#img5" position="1.8 0 0" width="1.2" height="0.7" material="src: #img5; shader: flat"></a-plane>
+      <a-plane class="thumb clickable" data-src="#img6" position="3.0 0 0" width="1.2" height="0.7" material="src: #img6; shader: flat"></a-plane>
+    </a-entity>
+
+    <!-- Opcional: suelo para referencia -->
+    <a-plane rotation="-90 0 0" width="30" height="30" position="0 0 -5" color="#222" opacity="0.15"></a-plane>
+  </a-scene>
+
+  <script>
+    // Función para cambiar la sky usando el id del <img> en a-assets (p. ej. "#img2")
+    function setupThumbs() {
+      const thumbs = document.querySelectorAll('.clickable');
+      thumbs.forEach(t => {
+        t.addEventListener('click', function (evt) {
+          const src = this.getAttribute('data-src'); // ejemplo: "#img3"
+          if (src) {
+            document.querySelector('#sky').setAttribute('src', src);
+          }
+        });
+        // mejora visual: aumentar ligeramente la miniatura al pasar el cursor
+        t.addEventListener('mouseenter', () => t.setAttribute('scale','1.05 1.05 1.05'));
+        t.addEventListener('mouseleave', () => t.setAttribute('scale','1 1 1'));
+      });
+    }
+
+    if (document.readyState === 'complete') setupThumbs();
+    else window.addEventListener('load', setupThumbs);
+  </script>
+</body>
+</html>
