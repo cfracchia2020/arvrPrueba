@@ -2,47 +2,69 @@
 <html lang="es">
   <head>
     <meta charset="UTF-8" />
-    <title>Experiencia VR</title>
+    <title>Experiencia VR con 6 imágenes</title>
     <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
   </head>
   <body>
     <a-scene>
-      <!-- Assets: imágenes 360 de prueba -->
+      <!-- Assets: 6 imágenes locales -->
       <a-assets>
-        <img id="img1" src="https://cdn.aframe.io/360-image-gallery-boilerplate/img/sechelt.jpg" />
-        <img id="img2" src="https://cdn.aframe.io/360-image-gallery-boilerplate/img/chesapeake.jpg" />
-        <img id="img3" src="https://cdn.aframe.io/360-image-gallery-boilerplate/img/snow.jpg" />
-        <img id="img4" src="https://cdn.aframe.io/360-image-gallery-boilerplate/img/yavapai.jpg" />
-        <img id="img5" src="https://cdn.aframe.io/360-image-gallery-boilerplate/img/city.jpg" />
-        <img id="img6" src="https://cdn.aframe.io/360-image-gallery-boilerplate/img/parking.jpg" />
+        <img id="img1" src="img1.jpg" />
+        <img id="img2" src="img2.jpg" />
+        <img id="img3" src="img3.jpg" />
+        <img id="img4" src="img4.jpg" />
+        <img id="img5" src="img5.jpg" />
+        <img id="img6" src="img6.jpg" />
       </a-assets>
 
-      <!-- El cielo empieza con la primera imagen -->
-      <a-sky id="sky" src="#img1" rotation="0 -90 0"></a-sky>
+      <!-- El cielo comienza con la primera -->
+      <a-sky id="sky" src="#img1"></a-sky>
 
       <!-- Cámara y cursor -->
       <a-entity camera look-controls>
-        <a-cursor
-          color="yellow"
-          fuse="true"
-          fuse-timeout="1000"
-        ></a-cursor>
+        <a-cursor color="yellow"></a-cursor>
       </a-entity>
 
-      <!-- Botones para cambiar la imagen -->
-      <a-plane position="-3 1.5 -3" width="1" height="0.5" color="blue" class="link" data-img="#img1" text="value: Imagen 1; color: white;"></a-plane>
-      <a-plane position="-1.5 1.5 -3" width="1" height="0.5" color="green" class="link" data-img="#img2" text="value: Imagen 2; color: white;"></a-plane>
-      <a-plane position="0 1.5 -3" width="1" height="0.5" color="red" class="link" data-img="#img3" text="value: Imagen 3; color: white;"></a-plane>
-      <a-plane position="1.5 1.5 -3" width="1" height="0.5" color="orange" class="link" data-img="#img4" text="value: Imagen 4; color: white;"></a-plane>
-      <a-plane position="3 1.5 -3" width="1" height="0.5" color="purple" class="link" data-img="#img5" text="value: Imagen 5; color: white;"></a-plane>
-      <a-plane position="4.5 1.5 -3" width="1" height="0.5" color="pink" class="link" data-img="#img6" text="value: Imagen 6; color: white;"></a-plane>
+      <!-- Botones para cambiar de imagen -->
+      <a-plane position="-3 1.5 -3" width="1.2" height="0.5" color="blue"
+        class="btn" data-img="#img1"
+        text="value: Imagen 1; color: white; align: center;">
+      </a-plane>
+
+      <a-plane position="-1.8 1.5 -3" width="1.2" height="0.5" color="green"
+        class="btn" data-img="#img2"
+        text="value: Imagen 2; color: white; align: center;">
+      </a-plane>
+
+      <a-plane position="-0.6 1.5 -3" width="1.2" height="0.5" color="red"
+        class="btn" data-img="#img3"
+        text="value: Imagen 3; color: white; align: center;">
+      </a-plane>
+
+      <a-plane position="0.6 1.5 -3" width="1.2" height="0.5" color="orange"
+        class="btn" data-img="#img4"
+        text="value: Imagen 4; color: white; align: center;">
+      </a-plane>
+
+      <a-plane position="1.8 1.5 -3" width="1.2" height="0.5" color="purple"
+        class="btn" data-img="#img5"
+        text="value: Imagen 5; color: white; align: center;">
+      </a-plane>
+
+      <a-plane position="3 1.5 -3" width="1.2" height="0.5" color="pink"
+        class="btn" data-img="#img6"
+        text="value: Imagen 6; color: white; align: center;">
+      </a-plane>
     </a-scene>
 
     <script>
-      // Al hacer clic en un botón, cambia la imagen del cielo
-      document.querySelectorAll('.link').forEach(function (el) {
-        el.addEventListener('click', function () {
-          document.querySelector('#sky').setAttribute('src', el.getAttribute('data-img'));
+      // Script para cambiar el cielo al hacer clic en un botón
+      document.addEventListener("DOMContentLoaded", () => {
+        document.querySelectorAll(".btn").forEach((el) => {
+          el.addEventListener("click", () => {
+            const newImg = el.getAttribute("data-img");
+            document.querySelector("#sky").setAttribute("src", newImg);
+          });
         });
       });
     </script>
